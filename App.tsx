@@ -1,19 +1,28 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from './screens/HomeScreen';
-import LogScreen from './screens/LogScreen';
-import { RootStackParamList } from './types';
+import { View, Text } from 'react-native';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
-const Stack = createStackNavigator<RootStackParamList>();
+const App: React.FC = () => {
+  const [user, setUser] = React.useState<FirebaseAuthTypes.User | null>(null);
 
-export default function App() {
+  React.useEffect(() => {
+    const subscriber = auth().onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    // Unsubscribe on unmount
+    return subscriber; 
+  }, []);
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Log" component={LogScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      {user ? (
+        <Text>Welcome, {user.email}</Text>
+      ) : (
+        <Text>Please sign in</Text>
+      )}
+    </View>
   );
-}
+};
+
+export default App;
