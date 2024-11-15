@@ -9,6 +9,27 @@ dist/
 web-build/
 expo-env.d.ts
 
+# Ignore configuration files config.json
+config.json
+
+# Ignore logs 
+logs/ 
+*.log
+
+# Ignore database files 
+*.sqlite 
+*.db
+
+# Ignore generated files 
+*.lock 
+*.tmp
+
+# Ignore Android specific files 
+/android/app/debug.keystore
+
+# Ignore iOS specific files 
+/ios/Pods/ 
+
 # Native
 *.orig.*
 *.jks
